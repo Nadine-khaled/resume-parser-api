@@ -101,9 +101,6 @@ http://127.0.0.1:5000
 - LLM cleaning: Groq (Llama 3.3 70B)
 - Production server recommendation: Gunicorn + Nginx (or any WSGI server)
 
-## License
-
-MIT License (or choose whatever fits your project)
 
 **Author:** Nadine Khaled  
 [GitHub](https://github.com/Nadine-khaled) | [LinkedIn](https://www.linkedin.com/in/nadine-khaled-6abb68253/)
