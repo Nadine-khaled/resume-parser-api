@@ -1,33 +1,38 @@
 # Resume Parser API
 
-A simple REST API that parses resumes (PDF & DOCX) and extracts:
+A simple, lightweight REST API that parses resumes (PDF & DOCX) and extracts:
 
-- Skills
-- Work experience (title, company, dates)
-- Location
+- **Skills**
+- **Work experience** (title, company, dates)
+- **Location**
 
-Powered by **spaCy** + a custom skill extraction model from Hugging Face + **Groq LLM** for cleaning and structuring the output.
+Powered by **spaCy** + custom skill extraction model from Hugging Face + **Groq LLM** (Llama 3.3 70B) for cleaning and structuring the output.
 
-## Features
+## Live API (Online & Ready to Use)
 
-- Accepts PDF and DOCX files
-- Extracts skills using a dedicated skill NER model
-- Uses Groq (Llama 3.3 70B) to clean and format the raw extracted data
-- Returns clean JSON output
+**Main Endpoint (POST):**
+https://nadinekhaled500-cv-parser-api.hf.space/parse_resume
+text**How to send a request:**
 
-## API Endpoint
+- Method: POST
+- Content-Type: multipart/form-data
+- Form field: `file` (type: File) — upload PDF or DOCX resume
 
-**POST** `/parse_resume`
+### curl Example
+```bash
+curl -X POST \
+  -F "file=@/path/to/your/resume.pdf" \
+  https://nadinekhaled500-cv-parser-api.hf.space/parse_resume
+Postman Example
 
-**Content-Type:** `multipart/form-data`
+Method → POST
+URL → https://nadinekhaled500-cv-parser-api.hf.space/parse_resume
+Body → form-data
+Key: file → change type to File
+Select your CV file → Send
 
-**Form field:**
-- `file` → the resume file (PDF or DOCX)
-
-### Example Response (success)
-
-```json
-{
+Success Response Example:
+JSON{
   "skills": [
     "Python",
     "Machine Learning",
@@ -56,12 +61,9 @@ Powered by **spaCy** + a custom skill extraction model from Hugging Face + **Gro
     "country": "Egypt"
   }
 }
-```
-
-## Installation & Local Development
-
-```bash
-# 1. Clone the repository
+Note: The first request may take 10–40 seconds (cold start + model loading). After that it's fast.
+Local Installation & Development
+Bash# 1. Clone the repository
 git clone https://github.com/Nadine-khaled/resume-parser-api.git
 cd resume-parser-api
 
@@ -79,28 +81,22 @@ python app.py
 # or with gunicorn (recommended for production-like testing)
 # pip install gunicorn
 gunicorn --bind 0.0.0.0:5000 app:app
-```
+The API will be available locally at:
+http://127.0.0.1:5000/parse_resume
+Important Notes
 
-The API will be available at:
-```
-http://127.0.0.1:5000
-```
+First run will download the skill-extractor model from Hugging Face (~466 MB) — may take several minutes depending on your internet speed.
+Groq API key must be provided via environment variable GROQ_API_KEY.
+Date parsing might occasionally produce future or inaccurate dates — known limitation, may need post-processing.
+Courses/short trainings sometimes appear in experience — filter on client side if needed.
 
-## Important Notes
+Tech Stack
 
-- The first run will download the skill-extractor model from Hugging Face (~466 MB) — this may take several minutes depending on your internet speed.
-- The Groq API key must be provided via environment variable GROQ_API_KEY.
-- Date parsing might occasionally produce future or inaccurate dates — this is a known limitation and may require additional post-processing.
-- Courses and short trainings sometimes appear in the experience section — consider filtering them on the client side if needed.
-
-## Tech Stack
-
-- Backend: Flask
-- PDF/DOCX parsing: pdfplumber + python-docx
-- NER & Skills extraction: spaCy + amjad-awad/skill-extractor
-- LLM cleaning: Groq (Llama 3.3 70B)
-- Production server recommendation: Gunicorn + Nginx (or any WSGI server)
-
+Backend: Flask
+PDF/DOCX parsing: pdfplumber + python-docx
+NER & Skills extraction: spaCy + amjad-awad/skill-extractor
+LLM cleaning: Groq (Llama 3.3 70B)
+Production server recommendation: Gunicorn
 
 **Author:** Nadine Khaled  
 [GitHub](https://github.com/Nadine-khaled) | [LinkedIn](https://www.linkedin.com/in/nadine-khaled-6abb68253/)
