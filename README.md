@@ -19,7 +19,27 @@ Powered by **spaCy** + custom skill extraction model from Hugging Face + **Groq 
 
 ## Live API (Online & Ready to Use)
 
- 
+**Main Endpoint (POST):**
+```
+https://nadinekhaled500-cv-parser-api.hf.space/parse_resume
+```
+
+### How to Send a Request
+
+- **Method:** POST
+- **Content-Type:** multipart/form-data
+- **Form field:** `file` (type: File) — upload PDF or DOCX resume
+- **File size limit:** Up to 25 MB
+- **Supported formats:** PDF, DOCX
+
+#### curl Example
+
+```bash
+curl -X POST \
+  -F "file=@/path/to/your/resume.pdf" \
+  https://nadinekhaled500-cv-parser-api.hf.space/parse_resume
+```
+
 #### Postman Example
 
 1. Method → **POST**
